@@ -198,7 +198,7 @@
         <div class="container mt-5">
     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Ajouter Préstation</button>
     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal2" onclick="openMontantModal()">Modifier Préstation</button>
-    <button class="btn btn-success" data-toggle="modal" data-target="#myModal3" onclick="openMontantModal2()">Valider Préstation</button>
+    <!-- <button class="btn btn-success" data-toggle="modal" data-target="#myModal3" onclick="openMontantModal2()">Valider Préstation</button> -->
 
     <!-- Modal -->
     <div class="modal" id="myModal">
@@ -214,7 +214,7 @@
                 <!-- Modal Body -->
                 <div class="modal-body">
                     <div id="modalContent">
-                        <p style="color: red">le montant va avoir une augmentation de 30%:</p>
+                        <!-- <p style="color: red">le montant va avoir une augmentation de 30%:</p> -->
                         <div class="form-group" style="display:flex;">
                             <label for="text1">préstation1:</label>
                             <input type="text" class="form-control" id="préstation1" required>
@@ -231,7 +231,7 @@
 
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="submitForm()">Submit</button>
+                <button type="button" class="btn btn-success" class="close" onclick="submitForm()" data-dismiss="modal" >Submit</button>
                     <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button> -->
                 </div>
 
@@ -516,13 +516,13 @@ function submitForm() {
         if (préstationField && MontantField) {
             // Calculate 30% more and add it to formData
             var originalAmount = parseFloat(MontantField.value);
-            var increasedAmount = originalAmount + (originalAmount * 0.3);
+            var increasedAmount = originalAmount + (originalAmount * 0);
 
             formData['entry' + i] = {
                 'préstation': préstationField.value,
-                'Montant': increasedAmount.toFixed(2) // Fix to 2 decimal places
+                'Montant': originalAmount.toFixed(2) // Fix to 2 decimal places
             };
-            console.log(increasedAmount);
+            // console.log(increasedAmount);
         }
     }
 
@@ -550,6 +550,7 @@ function submitForm() {
 
     // Close the modal after submission
     $('#myModal').modal('hide');
+    closeModal();
 }
 
 

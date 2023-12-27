@@ -89,6 +89,7 @@
             /* Add any other styles you need for the content */
         }
     </style>
+    
 <?php
 // Include your database connection configuration
 include 'config.php';
@@ -99,6 +100,10 @@ $chantier = $_POST['chantierr'];
 $year =  $_POST['yearr'];
 $month =  $_POST['monthh'];
 $num_facture =  $_POST['num_facture'];
+$montant_text =  $_POST['montant_text'];
+$client =  $_POST['client'];
+$marche =  $_POST['Marche'];
+$mode_p =  $_POST['mode_paiment'];
 $chantier_ids_string = implode(",", $chantier);
 if($chantier_ids_string  && $year && $month){
  $fixe=4000.00;
@@ -160,10 +165,10 @@ if ($result->num_rows > 0) {
         <tr>
             <td id='date'> </p>
             </td>
-            <td> </td>
-            <td> </td>
+            <td>$marche</td>
+            <td>$mode_p</td>
             <td>$num_facture</td>
-            <td> </td>
+            <td>$client</td>
 
         </tr>
        
@@ -178,40 +183,55 @@ if ($result->num_rows > 0) {
                 <th style='border: 2px solid black; padding: 8px;'>P.U</th>
                 <th style='border: 2px solid black; padding: 8px;'>Total HT</th>
             </tr>";
+            $totalMontant = $row['totalMontant'];
 
+            $formattedTotalMontant = number_format($totalMontant, 2, '.', ' ');
 while ($row = $result->fetch_assoc()) {
+    $totalMontant = $row['totalMontant'];
+
+    $formattedTotalMontant = number_format($totalMontant, 2, '.', ' ');
     echo "<tr style=' border-bottom: 0px solid black;'>
             <td style=' width: 50%;border-right: 2px solid black; border-left: 2px solid black; padding: 8px; height: 15px; text-decoration: underline; '>{$row['designation_or_element']}</td>
             <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>Sit</td>
             <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>1</td>
-            <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>{$row['totalMontant']}</td>
-            <td style='border-right: 2px solid black; padding: 8px; height: 15px; '>{$row['totalMontant']}</td>
+          
+            <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>$formattedTotalMontant</td>
+            <td style='border-right: 2px solid black; padding: 8px; height: 15px; '>$formattedTotalMontant</td>
         </tr>";
 }
+
+ 
+    $fx = number_format($fix, 2, '.', ' ');
 echo "<tr style=' border-bottom: 0px solid black;'>
             <td style=' width: 50%;border-right: 2px solid black; padding: 8px; border-left: 2px solid black; height: 15px; text-decoration: underline; '>Prestation de service Administrative et Comptabilité</td>
             <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>F</td>
             <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>1</td>
-            <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>$fix</td>
-            <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>$fix</td>
+            <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>$fx</td>
+            <td style='border-right: 2px solid black; padding: 8px; height: 15px;'>$fx</td>
         </tr>";
+        $sm = number_format($sum, 2, '.', ' ');
 
         echo "<tr style=' border-top: 2px solid black;' >
             <td   style='border-style: none'></td>
             <td  colspan='3' style=' border-top: 2px solid black; border-left: 2px solid black; background-color: #f2f2f2;'>Total HT</td>
-            <td style=' border-left: 2px solid black; border-right: 2px solid black;'>$sum</td>
+            <td style=' border-left: 2px solid black; border-right: 2px solid black;'>$sm</td>
   </tr>
         ";
+
+        $tv = number_format($TVA, 2, '.', ' ');
+
         echo "<tr  >
             <td  style='border-style: none'></td>
             <td  colspan='3' style=' border-top: 2px solid black; border-left: 2px solid black; background-color: #f2f2f2;'>TVA 20%</td>
-            <td style=' border-top: 2px solid black; border-left: 2px solid black; border-right: 2px solid black;'>$TVA</td>
+            <td style=' border-top: 2px solid black; border-left: 2px solid black; border-right: 2px solid black;'>$tv</td>
   </tr>
         ";
+        $tv1 = number_format($TVA1, 2, '.', ' ');
+
         echo "<tr >
             <td  style='border-style: none'></td>
             <td  colspan='3' style=' border-top: 2px solid black; border-left: 2px solid black; border-bottom: 2px solid black; background-color: #f2f2f2;'>Net à Payer TTC</td>
-            <td style=' border-top: 2px solid black; border-left: 2px solid black; border-right: 2px solid black; border-bottom: 2px solid black;'>$TVA1</td>
+            <td style=' border-top: 2px solid black; border-left: 2px solid black; border-right: 2px solid black; border-bottom: 2px solid black;'>$tv1</td>
   </tr>
         ";
 
@@ -220,7 +240,7 @@ echo "</table>";
 
 
 echo"
-<p>Arretée la présente facture à la somme de: <br> NET à PAYER EN LETTRES </p>
+<p>Arretée la présente facture à la somme de: <br>$montant_text</p>
 </div>
 
 

@@ -198,7 +198,7 @@
         <div class="container mt-5">
     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Ajouter Préstation</button>
     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal2" onclick="openMontantModal()">Modifier Préstation</button>
-    <button class="btn btn-success" data-toggle="modal" data-target="#myModal3" onclick="openMontantModal2()">Valider Préstation</button>
+    <!-- <button class="btn btn-success" data-toggle="modal" data-target="#myModal3" onclick="openMontantModal2()">Valider Préstation</button> -->
 
     <!-- Modal -->
     <div class="modal" id="myModal">
@@ -260,6 +260,7 @@
                 <th>Préstation</th>
                 <th>Montant</th>
                 <th>Enregister</th>
+
 
             </tr>
         </thead>

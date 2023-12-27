@@ -231,7 +231,7 @@
 
                 <!-- Modal Footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="submitForm()">Submit</button>
+                <button type="button" class="btn btn-success" class="close" onclick="submitForm()" data-dismiss="modal" >Submit</button>
                     <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button> -->
                 </div>
 
@@ -520,9 +520,9 @@ function submitForm() {
 
             formData['entry' + i] = {
                 'préstation': préstationField.value,
-                'Montant': increasedAmount.toFixed(2) // Fix to 2 decimal places
+                'Montant': originalAmount.toFixed(2) // Fix to 2 decimal places
             };
-            console.log(increasedAmount);
+            // console.log(increasedAmount);
         }
     }
 
@@ -550,6 +550,7 @@ function submitForm() {
 
     // Close the modal after submission
     $('#myModal').modal('hide');
+    closeModal()
 }
 
 
