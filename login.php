@@ -76,52 +76,118 @@ height: 100%;
 
 
 
-
 <?php
-session_start();
+// Include your database connection file or establish a connection here
+include("config.php");
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-
-// Check submitted credentials
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve form data
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Validate credentials (this is a basic example, use a database for production)
-    if (
-        ($email === 'user1@example.com' && $password === 'password1') ||
-        ($email === 'user2@example.com' && $password === 'password2') ||
-        ($email === 'user3@example.com' && $password === 'password3') ||
-        ($email === 'user1@example.com' && $password === 'password1') ||
-        ($email === 'user2@example.com' && $password === 'password2') ||
-        ($email === 'user3@example.com' && $password === 'password3') ||
-        ($email === 'user3@example.com' && $password === 'password3') ||
-        ($email === 'user1@example.com' && $password === 'password1') ||
-        ($email === 'user2@example.com' && $password === 'password2') ||
-        ($email === 'user3@example.com' && $password === 'password3') ||
-        ($email === 'user3@example.com' && $password === 'password3') ||
-        ($email === 'user1@example.com' && $password === 'password1') ||
-        ($email === 'user2@example.com' && $password === 'password2') 
-    ) {
-        // Authentication successful, create a session
-        $_SESSION['authenticated'] = true;
-        $_SESSION['user_email'] = $email;
+    // Your database query to retrieve user data based on the email
+    $sql = "SELECT id_u, id_e, email, hashed_password FROM users WHERE email = ?";
+    
+    // Use prepared statements to prevent SQL injection
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
 
-        // Redirect based on the user
-        if ($email === 'user1@example.com') {
-            header("Location: Aicha_chitt.php");
-            exit();
-        } elseif ($email === 'user2@example.com') {
-            header("Location: page2.php");
-            exit();
-        } elseif ($email === 'user3@example.com') {
-            header("Location: page3.php");
-            exit();
-        }
-    } else {
-        $error_message = "Invalid credentials";
+    // Execute the query
+    $stmt->execute();
+
+    // Bind the result variables
+    $stmt->bind_result($userId, $elementId, $storedEmail, $hashedPassword);
+
+    // Fetch the result
+    $stmt->fetch();
+
+    // Verify the password
+    if (password_verify($password, $hashedPassword)) {
+        // Password is correct, login successful
+        switch ($elementId) {
+            case 1:
+                header("Location: Mohammed_ElHimer.php");
+                break;
+            case 2:
+                header("Location: Anouar_Karram.php");
+                break;  
+            case 3:
+                header("Location: Youssef_ElAsri.php");
+                break;  
+            case 4:
+                header("Location: Mohammed_Radi.php");
+                break;   
+                    
+                    
+            case 5:
+                header("Location: ali_ajbabdi.php");
+                break; 
+                
+            case 6:
+                header("Location: Noureddine_Mzard.php");
+                break; 
+                    
+            
+            case 7:
+            header("Location: Youssef_Abidi.php");
+            break; 
+
+            case 8:
+                header("Location: Mohammed_Amal.php");
+                break; 
+                    
+            case 9:
+                header("Location: Brahim_Belberza.php");
+                break; 
+                        
+                
+            case 10:
+                header("Location: Ismail_Elghadghoud.php");
+                break; 
+
+
+            case 11:
+                header("Location: ali_ajbabdi.php");
+                break;
+            case 12:
+                header("Location: ali_ajbabdi.php");
+                break;  
+            case 13:
+                header("Location: ali_ajbabdi.php");
+                break;  
+            case 14:
+                header("Location: nezha_zamrani.php");
+                break;   
+                    
+                    
+            case 15:
+                header("Location: nezha_zamrani.php");
+                break; 
+                
+            case 16:
+                header("Location: Tawfiq_Benhaba.php");
+                break; 
+                    
+             
+
+            }
     }
+
+
+    else {
+        // Invalid credentials
+        echo "Invalid email or password.";
+    }
+
+    // Close the statement
+    $stmt->close();
 }
+
+// Close the database connection
+$conn->close();
 ?>
+
 <body>
 <!-- <div class="container">
 <h1>Login</h1> -->
@@ -170,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Forgot password?</a></p>
-            <p>Don't have an account? <a href="#!" class="link-info">Register here</a></p>
+            <p>Don't have an account? <a href="registration.php" class="link-info">Register here</a></p>
 
           </form>
 
@@ -186,7 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div class="text-muted">Copyright &copy; G3C 2023</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;

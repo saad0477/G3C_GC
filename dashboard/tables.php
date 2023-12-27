@@ -13,7 +13,7 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
         <style>
-/* 
+
 
 .form {
             background-color: #fff;
@@ -21,7 +21,7 @@
             border-radius: 8px;
             width: 600px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        } */
+        }
         </style>
     </head>
     <body class="sb-nav-fixed">
@@ -133,7 +133,7 @@
                             <div class="form">
          <h1>Model Card</h1>
         <label for="chantier">Chantier:</label>
-        <select  class="form-select form-select-lg mb-3" id="chantier" name="chantier" required>
+        <select id="chantier" name="chantier" required>
             <?php
               include 'config.php';
 
@@ -151,7 +151,7 @@
             ?>
         </select>
         <label for="month">Month:</label>
-        <select id="month"  class="form-select form-select-lg mb-3"   name="month" required  >
+        <select id="month" name="month" required  >
         <?php 
         echo "<option value='' disabled selected hidden>Choisir le mois</option>";
 
@@ -177,7 +177,7 @@
         </select>
 
         <label for="year">Year:</label>
-        <select id="year"  class="form-select form-select-lg mb-3" name="year" required>
+        <select id="year" name="year" required>
             <?php
                 for ($i = date('Y'); $i >= 2020;) {
                     echo "<option value='$i'>$i</option>";
@@ -309,7 +309,7 @@
             </div>
                         </div>
                         </div>
-                        <!-- <div class="card mb-4">
+                        <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 DataTable Example
@@ -359,7 +359,7 @@
                                     
                                 </table>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
@@ -467,185 +467,6 @@ var table = $('#tab').DataTable({
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script>
-    var fieldCounter = 2; // Start with 2 initial text fields
 
-    function addTextField() {
-        // Add a new text field on "Add Text Field" button click
-        var dynamicFields = document.getElementById('dynamicFields');
-        var newField = document.createElement('div');
-        newField.innerHTML = '<div class="form-group"  style="display:flex;"> <label for="text' + fieldCounter + '">préstation' + fieldCounter + ':</label><input type="text" class="form-control" id="préstation' + fieldCounter + '" required>  <label for="text'+fieldCounter + '">Montant'+fieldCounter + ':</label><input type="text" class="form-control" id="Montant' + fieldCounter + '" required></div>';
-                           
-                              
-        dynamicFields.appendChild(newField);
-        fieldCounter++;
-    }
-    function removeLastTextField() {
-    var dynamicFields = document.getElementById('dynamicFields');
-    var lastField = dynamicFields.lastElementChild;
-
-    // Vérifier s'il y a des éléments à supprimer
-    if (lastField) {
-        dynamicFields.removeChild(lastField);
-        fieldCounter--;
-    }
-}
-
-function submitForm() {
-    // Collect form data
-    var formData = {};
-    for (var i = 1; i <= fieldCounter; i++) {
-        var préstationField = document.getElementById('préstation' + i);
-        var MontantField = document.getElementById('Montant' + i);
-
-        // Check if both fields exist before adding them to formData
-        if (préstationField && MontantField) {
-            // Calculate 30% more and add it to formData
-            var originalAmount = parseFloat(MontantField.value);
-            var increasedAmount = originalAmount + (originalAmount * 0.3);
-
-            formData['entry' + i] = {
-                'préstation': préstationField.value,
-                'Montant': increasedAmount.toFixed(2) // Fix to 2 decimal places
-            };
-            console.log(increasedAmount);
-        }
-    }
-
-    var additionalData = {
-        id_e: $('#id_e').val(),
-        chantier: $('#chantier').val(),
-        month: $('#month').val(),
-        year: $('#year').val()
-    };
-
-    var allData = Object.assign({}, formData, additionalData);
-
-    // Make an AJAX request to the PHP script
-    jQuery.ajax({
-        type: 'POST',
-        url: 'process.php', // Change this to the path of your PHP script
-        data: allData,
-        success: function (response) {
-            console.log(response); // Log the response from the server
-        },
-        error: function (error) {
-            console.error('Error:', error);
-        }
-    });
-
-    // Close the modal after submission
-    $('#myModal').modal('hide');
-}
-
-
-
-
- 
-    function openMontantModal(mois, annee, id_e, id_c) {
-    var mois = document.getElementById('month').value;
-    var annee = document.getElementById('year').value;
-    var id_e = document.getElementById('id_e').value;
-    var id_c = document.getElementById('chantier').value;
-
-    // Use AJAX to fetch data based on the selected filter criteria
-    $.ajax({
-        type: 'POST',
-        url: 'fetch_data.php',
-        data: { mois: mois, annee: annee, id_e: id_e, id_c: id_c },
-   
-            success: function(data) {
-    // Append the table HTML to the tableBody container
-    $('#tableBody').html(data);
-
-    // Display the second modal
-    $('#myModal2').modal('show');
-}
-        
-    });}
-
-
-    function openMontantModal2(mois, annee, id_e, id_c) {
-    var mois = document.getElementById('month').value;
-    var annee = document.getElementById('year').value;
-    var id_e = document.getElementById('id_e').value;
-    var id_c = document.getElementById('chantier').value;
-
-    // Use AJAX to fetch data based on the selected filter criteria
-    $.ajax({
-        type: 'POST',
-        url: 'fetch_data2.php',
-        data: { mois: mois, annee: annee, id_e: id_e, id_c: id_c },
-   
-            success: function(data) {
-    // Append the table HTML to the tableBody container
-    $('#tableBody2').html(data);
-
-    // Display the second modal
-    $('#myModal3').modal('show');
-}
-        
-    });}
-
-
-    function saveEdit(id) {
-        // Get the modified values from the input fields
-        var editedMois = $('#edit_mois_' + id).val();
-        var editedAnnee = $('#edit_annee_' + id).val();
-        var editedPrestation = $('#edit_prestation_' + id).val();
-        var editedMontant = $('#edit_montant_' + id).val();
-
-        // Make an AJAX request to update the record in the database
-        $.ajax({
-            type: 'POST',
-            url: 'update_record.php', // Change this to the path of your PHP script for updating records
-            data: {
-                id: id,
-                editedMois: editedMois,
-                editedAnnee: editedAnnee,
-                editedPrestation: editedPrestation,
-                editedMontant: editedMontant
-            },
-            success: function(response) {
-                console.log(response); // Log the response from the server
-
-                // Optionally, update the table or provide feedback to the user
-            },
-            error: function(error) {
-                console.error('Error:', error);
-            }
-        });
-    }
-
-    function valider() {
-        // Get the modified values from the input fields
-        var moisv = $('#moisv').val();
-        var anneev = $('#anneev').val();
-        var chantierv = $('#chantierv').val();
-
-        // Make an AJAX request to update the record in the database
-        $.ajax({
-            type: 'POST',
-            url: 'validate_prestation.php', // Change this to the path of your PHP script for updating records
-            data: {
-                moisv: moisv,
-                anneev: anneev,
-                chantierv: chantierv
-            },
-            success: function(response) {
-                console.log(response); // Log the response from the server
-
-                // Optionally, update the table or provide feedback to the user
-            },
-            error: function(error) {
-                console.error('Error:', error);
-            }
-        });
-        $('#myModal3').modal('hide');
-
-    }
-</script>
     </body>
 </html>

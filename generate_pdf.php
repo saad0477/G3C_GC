@@ -183,9 +183,7 @@ if ($result->num_rows > 0) {
                 <th style='border: 2px solid black; padding: 8px;'>P.U</th>
                 <th style='border: 2px solid black; padding: 8px;'>Total HT</th>
             </tr>";
-            $totalMontant = $row['totalMontant'];
-
-            $formattedTotalMontant = number_format($totalMontant, 2, '.', ' ');
+          
 while ($row = $result->fetch_assoc()) {
     $totalMontant = $row['totalMontant'];
 

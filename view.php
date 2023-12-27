@@ -3,7 +3,7 @@ session_start();
 $user_email = $_SESSION['user_email'];
 
 // Check if the user is authenticated, redirect to login if not
-if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true || $user_email !== 'user1@example.com') {
+if (!isset($_SESSION['authenticated']) || $_SESSION['authenticated'] !== true || $user_email !== 'a.chitt@g3c.ma') {
     header("Location: login.php");
     exit();
 }
